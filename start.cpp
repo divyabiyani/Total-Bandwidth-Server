@@ -28,8 +28,10 @@ int main()
 		printf("Enter the arrival time of aperiodic request %lld:",i+1);
 		scanf("%lld",&aperiodicTasks[i].arrivalTime);
 		printf("Enter the computation time of aperiod request %lld:",i+1);
-		scanf("%lld",&periodicTasks[i].capacity);
+		scanf("%lld",&aperiodicTasks[i].capacity);
 	}
+
+	totalBandwidthCalculation(noPeriodic,periodicTasks,noAperiodic,aperiodicTasks);
 
 	return 0;
 }

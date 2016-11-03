@@ -13,7 +13,7 @@ struct aperiodic
 	long long int capacity;
 };
 
-struct totalInQueue
+struct totalQueue
 {
 	long long int arrivalTime;
 	long long int capacity;
