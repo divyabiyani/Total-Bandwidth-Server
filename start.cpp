@@ -17,6 +17,8 @@ int main()
 		scanf("%lld",&periodicTasks[i].capacity);
 		printf("Enter the time period of periodic task %lld:",i+1);
 		scanf("%lld",&periodicTasks[i].timePeriod);
+		periodicTasks[i].name.POrA='P';
+		periodicTasks[i].name.no=i+1;
 	}
 
 	printf("Enter the no. of Aperiodic requests:");
@@ -29,6 +31,8 @@ int main()
 		scanf("%lld",&aperiodicTasks[i].arrivalTime);
 		printf("Enter the computation time of aperiod request %lld:",i+1);
 		scanf("%lld",&aperiodicTasks[i].capacity);
+		aperiodicTasks[i].name.POrA='A';
+		aperiodicTasks[i].name.no=i+1;
 	}
 
 	totalBandwidthCalculation(noPeriodic,periodicTasks,noAperiodic,aperiodicTasks);
