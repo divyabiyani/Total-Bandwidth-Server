@@ -42,6 +42,24 @@ void deadlineCalculator(vector<struct totalQueue> *totalTasks,long long int noAp
 	return;
 }
 
+void periodicTasksAddition(vector<struct totalQueue> *totalTasks,long long int noPeriodic,struct periodic periodicTasks[],long long int endLimit)
+{
+	for(long long int i=0;i<noPeriodic;i++)
+	{
+		long long int p=0;
+		while(p<=endLimit)
+		{
+			struct totalQueue tQ;
+			tQ.arrivalTime=p;
+			p+=periodicTasks[i].timePeriod;
+			tQ.capacity=periodicTasks[i].capacity;
+			tQ.deadline=p;
+			totalTasks->push_back(tQ);
+		}
+	}
+	return;
+}
+
 void totalBandwidthCalculation(long long int noPeriodic,struct periodic periodicTasks[],long long int noAperiodic,struct aperiodic aperiodicTasks[])
 {
 	sort( periodicTasks, periodicTasks+noPeriodic, sort_by_timePeriod );
@@ -53,4 +71,11 @@ void totalBandwidthCalculation(long long int noPeriodic,struct periodic periodic
 	vector<struct totalQueue> totalTasks;
 
 	deadlineCalculator(&totalTasks,noAperiodic,aperiodicTasks,Us);
+
+	periodicTasksAddition(&totalTasks,noPeriodic,periodicTasks,totalTasks.back().deadline);
+
+	for(long long int i=0;i<(long long int)totalTasks.size();i++)
+	{
+		cout<<totalTasks[i].arrivalTime<<" "<<totalTasks[i].capacity<<" "<<totalTasks[i].deadline<<endl;
+	}
 }
