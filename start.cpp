@@ -21,31 +21,59 @@ void gantt_display(vector<struct nam> finalOutput,vector<struct totalQueue> tota
     for(long long int i = 0; i<signed(finalOutput.size()); i++) 
     {
         al_clear_to_color(al_map_rgb(255, 255, 255));
-        //gt.translate(x1, y1, 2, 0);
-        //gt.translate(x2, y2, 2, 0);
-
-        for(long long int j=0;j<(noPeriodic+1);j++)
+        long long int j=0;
+        
+        for(j=0;j<(noPeriodic+1);j++)
         {
         	gt.drawRoad(y + (100*j));
         }
+        for(j=0;j<=i;j++)
+        {
+            long long int k=0;
+            while(totalTasks[k].arrivalTime<=i)
+            {
+                if(totalTasks[k].name.POrA=='P')
+                    gt.drawVerticalRoad((totalTasks[k].arrivalTime+1)*25,(y+(100*(totalTasks[k].name.no-1))));
+                else if(totalTasks[k].name.POrA=='A')
+                    gt.drawVerticalRoad((totalTasks[k].arrivalTime+1)*25,(y+(100*(noPeriodic))));
+                k++;
+            }
 
-        if(finalOutput[i].POrA=='P')
-        {
-        	gt.drawRectangle(i*50,(y+(100*(finalOutput[i].no-1)))-50,(i+1)*50,(y+(100*(finalOutput[i].no-1))),'P');
+            k=0;
+
+            while(k<=signed(totalTasks.size()))
+            {
+                if(totalTasks[k].deadline<=i)
+                {
+                    if(totalTasks[k].name.POrA=='P')
+                        gt.drawVerticalRoadDead((totalTasks[k].deadline+1)*25,(y+(100*(totalTasks[k].name.no-1))));
+                    else if(totalTasks[k].name.POrA=='A')
+                        gt.drawVerticalRoadDead((totalTasks[k].deadline+1)*25,(y+(100*(noPeriodic))));
+                }
+                k++;
+            }
+            while(totalTasks[k].arrivalTime<=i)
+            {
+                if(totalTasks[k].name.POrA=='P')
+                    gt.drawVerticalRoad((totalTasks[k].arrivalTime+1)*25,(y+(100*(totalTasks[k].name.no-1))));
+                else if(totalTasks[k].name.POrA=='A')
+                    gt.drawVerticalRoad((totalTasks[k].arrivalTime+1)*25,(y+(100*(noPeriodic))));
+                k++;
+            }
+            if(finalOutput[j].POrA=='P')
+            {
+            	gt.drawRectangle((j+1)*25,(y+(100*(finalOutput[j].no-1)))-50,(j+2)*25,(y+(100*(finalOutput[j].no-1))),'P');
+            }
+            else if(finalOutput[j].POrA=='A')
+            {
+            	gt.drawRectangle((j+1)*25,(y+(100*(noPeriodic)))-50,(j+2)*25,(y+(100*(noPeriodic))),'A');
+            }
         }
-        else
-        {
-        	gt.drawRectangle(i*50,(y+(100*(noPeriodic)))-50,(i+1)*50,(y+(100*(noPeriodic))),'A');
-        }
-        
-        //e.drawWheel(x1 + 25, y2 + 10, 10, 3, i);
-        //e.drawWheel(x1 + 75, y2 + 10, 10, 3, i);
-        //e.drawWheel(x1 + 100, y2 + 10, 10, 3, i);
-        //e.drawSmoke(x1 + 100, y1 + 5, x1 + 110, y2 - 50, i);
 
         al_flip_display();
         al_rest(0.25);
     }
+    al_rest(1.0);
     al_destroy_display(display);
 }
 
