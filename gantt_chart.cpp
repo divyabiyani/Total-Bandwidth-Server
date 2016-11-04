@@ -11,8 +11,11 @@ public :
     void drawBoundary(int x1,int y1, int x2, int y2, int t) {
         al_draw_rectangle(x1, y1, x2, y2, al_map_rgb(0, 0, 0), t);
     }
-    void drawRectangle(int x1,int y1, int x2, int y2) {
-        al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(100, 100, 100));
+    void drawRectangle(int x1,int y1, int x2, int y2,char POrA) {
+        if(POrA=='A')
+            al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(50, 50, 50));
+        else
+            al_draw_filled_rectangle(x1, y1, x2, y2, al_map_rgb(150, 150, 150));
         //printf("2\n");
         drawBoundary(x1, y1, x2, y2, 2);
     }
@@ -27,9 +30,9 @@ public :
         y1 = (x0 - x) * sin(angle) + (y - y0) * cos(angle) + y0;
     }
     void drawBody(float x1, float y1, float x2, float y2) {
-        drawRectangle(x1, y1, x1 + 50, y2);
-        drawRectangle(x1 + 50, y1 + 30, x2, y2);
-        drawRectangle(x1 + 100, y1 + 5, x1 + 110, y1 + 30);
+        //drawRectangle(x1, y1, x1 + 50, y2);
+        //drawRectangle(x1 + 50, y1 + 30, x2, y2);
+        //drawRectangle(x1 + 100, y1 + 5, x1 + 110, y1 + 30);
         al_draw_filled_circle(x1 + 25, y1 + 25, 10, al_map_rgb(255, 250, 250));
     }
     void drawWheel(int x0,int y0, int r, int t, int i) {

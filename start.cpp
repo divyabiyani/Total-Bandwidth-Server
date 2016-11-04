@@ -4,7 +4,7 @@
 
 using namespace std;
 
-void gantt_display(vector<struct nam> finalOutput,long long int noPeriodic,long long int noAperiodic)
+void gantt_display(vector<struct nam> finalOutput,vector<struct totalQueue> totalTasks,long long int noPeriodic,long long int noAperiodic)
 {
 	ALLEGRO_DISPLAY *display = NULL;
     if(!al_init()) return;
@@ -16,16 +16,26 @@ void gantt_display(vector<struct nam> finalOutput,long long int noPeriodic,long 
     al_clear_to_color(al_map_rgb(255, 255, 255));
    
     gantt gt;
-    float x1 = 0,y1 = 220, x2 = 125, y2 = 100;
+    long long int y = 100;
     //printf("3\n");
-    for(float i = 0; i + 120 < 1500; i += 2) {
+    for(long long int i = 0; i<signed(finalOutput.size()); i++) 
+    {
         al_clear_to_color(al_map_rgb(255, 255, 255));
-        gt.translate(x1, y1, 2, 0);
-        gt.translate(x2, y2, 2, 0);
+        //gt.translate(x1, y1, 2, 0);
+        //gt.translate(x2, y2, 2, 0);
 
         for(long long int j=0;j<(noPeriodic+1);j++)
         {
-        	gt.drawRoad(y2 + (100*j));
+        	gt.drawRoad(y + (100*j));
+        }
+
+        if(finalOutput[i].POrA=='P')
+        {
+        	gt.drawRectangle(i*50,(y+(100*(finalOutput[i].no-1)))-50,(i+1)*50,(y+(100*(finalOutput[i].no-1))),'P');
+        }
+        else
+        {
+        	gt.drawRectangle(i*50,(y+(100*(noPeriodic)))-50,(i+1)*50,(y+(100*(noPeriodic))),'A');
         }
         
         //e.drawWheel(x1 + 25, y2 + 10, 10, 3, i);
@@ -34,7 +44,7 @@ void gantt_display(vector<struct nam> finalOutput,long long int noPeriodic,long 
         //e.drawSmoke(x1 + 100, y1 + 5, x1 + 110, y2 - 50, i);
 
         al_flip_display();
-        al_rest(0.025);
+        al_rest(0.25);
     }
     al_destroy_display(display);
 }
@@ -74,17 +84,7 @@ int main()
 	vector<struct nam> finalOutput;
 	totalTasks=totalBandwidthCalculation(noPeriodic,periodicTasks,noAperiodic,aperiodicTasks,&finalOutput);
 
-	// for(long long int i=0;i<signed(totalTasks.size());i++)
-	// {
-	// 	cout<<totalTasks[i].arrivalTime<<endl;
-	// }
-
-	// for(long long int i=0;i<signed(finalOutput.size());i++)
-	// {
-	// 	cout<<finalOutput[i].POrA<<finalOutput[i].no<<endl;
-	// }
-
-	gantt_display(finalOutput,noPeriodic,noAperiodic);
+	gantt_display(finalOutput,totalTasks,noPeriodic,noAperiodic);
 
 	return 0;
 }
