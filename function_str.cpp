@@ -78,20 +78,14 @@ void periodicTasksAddition(vector<struct totalQueue> *totalTasks,long long int n
 	return;
 }
 
-void EDF(vector<struct totalQueue> totalTasks)
+void EDF(vector<struct totalQueue> totalTasks,vector<struct nam> *finalOutput)
 {
 	long long int t=0;
 	vector<struct totalQueue> readyTasks;
-	vector<struct nam> finalOutput;
 
 	struct nam empty;
 	empty.POrA='Z';
 	empty.no=-1;
-
-	for(long long int i=0;i<totalTasks.size();i++)
-	{
-		cout<<totalTasks[i].name.POrA<<totalTasks[i].name.no<<" "<<totalTasks[i].arrivalTime<<" "<<totalTasks[i].deadline<<" "<<totalTasks[i].capacity<<endl;
-	}
 
 	while(!totalTasks.empty() || !readyTasks.empty())
 	{
@@ -106,7 +100,7 @@ void EDF(vector<struct totalQueue> totalTasks)
 
 		if(!readyTasks.empty())
 		{
-			finalOutput.push_back(readyTasks[0].name);
+			finalOutput->push_back(readyTasks[0].name);
 			readyTasks[0].capacity=readyTasks[0].capacity-1;
 			//cout<<readyTasks[0].name.no<<" "<<readyTasks[0].capacity<<endl;
 			if(readyTasks[0].capacity==0)
@@ -115,19 +109,15 @@ void EDF(vector<struct totalQueue> totalTasks)
 			}
 		}
 		else
-			finalOutput.push_back(empty);
+			finalOutput->push_back(empty);
 
 		t++;
 	}
 	//cout<<"size:"<<finalOutput.size()<<endl;;
-	for(long long int i=0;i<finalOutput.size();i++)
-	{
-		cout<<finalOutput[i].POrA<<finalOutput[i].no<<endl;
-	}
 	return;
 }
 
-void totalBandwidthCalculation(long long int noPeriodic,struct periodic periodicTasks[],long long int noAperiodic,struct aperiodic aperiodicTasks[])
+vector<struct totalQueue> totalBandwidthCalculation(long long int noPeriodic,struct periodic periodicTasks[],long long int noAperiodic,struct aperiodic aperiodicTasks[],vector<struct nam> *finalOutput)
 {
 	sort( periodicTasks, periodicTasks+noPeriodic, sort_by_timePeriod );
 	sort( aperiodicTasks, aperiodicTasks+noAperiodic, sort_by_arrivalTime );
@@ -143,6 +133,8 @@ void totalBandwidthCalculation(long long int noPeriodic,struct periodic periodic
 
 	sort( totalTasks.begin(), totalTasks.end(), TotalQueue_sort_by_arrivalTime );
 
-	EDF(totalTasks);
+	EDF(totalTasks,finalOutput);
+
+	return totalTasks;
 
 }
